@@ -26,13 +26,21 @@ sourceCompatibility = '1.8'
 jar {
     enabled = true
     manifest {
-        attributes 'Main-Class': 'JavaWeb.App'
+        attributes 'Main-Class': 'javaweb.App'
     }
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.2.18.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.2.18.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.2.18.RELEASE'
+
+    compile "org.eclipse.jetty:jetty-servlets:9.3.20.v20170531"
+    compile 'mysql:mysql-connector-java:8.0.21'
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -40,5 +48,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'JavaWeb.App'
+    mainClassName = 'javaweb.App'
 }
