@@ -63,6 +63,12 @@ public class Security extends WebSecurityConfigurerAdapter {
           throws AuthenticationException {
             String name = authentication.getName();
             String password = authentication.getCredentials().toString();
+            System.out.println();
+            System.out.println("------------");
+            System.out.println(name);
+            System.out.println(password);
+            System.out.println("------------");
+            System.out.println();
             if(Database.INSTANCE.login(name,password) == Database.COMPLETE) return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
             else throw new BadCredentialsException("CANT LOGIN");
         }
@@ -86,7 +92,7 @@ public class Security extends WebSecurityConfigurerAdapter {
             .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
                 .and()
             .csrf().disable();
-                /*
+        http
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/signup").permitAll()
@@ -94,17 +100,11 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/api/**").authenticated()
                 .antMatchers(HttpMethod.POST,"/api/**").authenticated()
                 .and()
-            .formLogin()
-                .loginProcessingUrl("/j_spring_security_check")
-                .usernameParameter("j_username")
-                .passwordParameter("j_password")
-                .permitAll()
-                .and()
             .logout()
                 .logoutUrl("/api/logout")
                 .and()
             .httpBasic();
-            */
+            
     }
 
     @Bean

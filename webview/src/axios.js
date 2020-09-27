@@ -5,7 +5,8 @@ const instance = axios.create({
   timeout: 1000,
   headers: {
         'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        authorization: 'Basic ' +localStorage.getItem('Auth')
     },
 });
 
