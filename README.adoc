@@ -1,0 +1,10 @@
+== Run the Application
+
+To run the application, run the following command in a terminal window:
+
+====
+[subs="attributes"]
+----
+./gradlew bootRun
+----
+====
