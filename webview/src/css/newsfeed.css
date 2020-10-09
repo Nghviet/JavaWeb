@@ -1,0 +1,39 @@
+
+.newsfeed {
+	display : flex;
+	flex-direction : row;
+}
+
+.newsfeed_left { 
+	flex : 3;
+	overflow : hidden;
+}
+
+.newsfeed_center {
+	flex : 5;
+
+}
+
+.newsfeed_right {
+	flex : 3;
+	overflow : hidden
+}
+
+.newsfeed_menu_item { 
+	max-height : 50px;
+	padding : 10px;
+	margin-left :20px;
+	margin-bottom : 10px;
+}
+
+.newsfeed_menu_item:hover { 
+	background-color : #d9d9d9;
+}
+
+.newsfeed_img {
+	max-height : 40px;
+}
+
+.newsfeed_menu_item_des {
+	display : inline;
+}

@@ -1,40 +1,46 @@
 import React, {Component} from 'react';
+import {
+  BrowserRouter as Router,
+  Redirect
+} from 'react-router-dom';
+
 import logo from './logo.svg';
 import './App.css';
 
 import axios from './axios';
 
+import Gate from './component/Gate'
+import Homepage from './component/Homepage'
 class App extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             logged : false
-        };
-        axios.get("/api/login")
-        .then((result) => {
-            this.setState({logged : true});
-        })
-        .catch(err => console.log(err))
+        }
+        console.log(props);
+    }
+
+    logout = ()  => {
+        this.setState({logged : false});
+        localStorage.clear();
+    }
+
+    login = () => {
+        this.setState({logged : true});
     }
 
     render() {
-        return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                  Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                  className="App-link"
-                  href="https://reactjs.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Learn React
-                </a>
-            </header>
-        </div>)
+        if(localStorage.getItem('Auth') == null) {
+            return(
+                <Router>
+                    <Redirect to="/"></Redirect>
+                    <Gate loggedIn = {this.login} />
+                </Router>
+            )
+        }
+        else return (
+                <Homepage logout = {this.logout}/>
+            );
     }
 }
 

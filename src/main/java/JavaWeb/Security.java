@@ -94,7 +94,6 @@ public class Security extends WebSecurityConfigurerAdapter {
             .csrf().disable();
         http
             .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/signup").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/verify").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/**").authenticated()

@@ -6,8 +6,13 @@ const instance = axios.create({
   headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
-        authorization: 'Basic ' +localStorage.getItem('Auth')
     },
 });
+
+instance.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('Auth');
+    config.headers.Authorization =  token ? `Basic ${token}` : '';
+    return config;
+  });
 
 export default instance;
