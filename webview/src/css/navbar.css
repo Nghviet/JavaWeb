@@ -5,6 +5,11 @@
 	background-color : #ffffff;
 }
 
+.navbar_search_label {
+	position : absolute;
+	margin : auto;
+}
+
 .left {
 	flex : 3;
 }

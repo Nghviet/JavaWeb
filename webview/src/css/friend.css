@@ -1,0 +1,33 @@
+.friend_container {
+	display: flex;
+}
+
+.friend_left {
+	flex : 1;
+	background-color : #f2f2f2;
+}
+
+.friend_main {
+	flex : 4
+}
+
+
+.friendtag_button {
+	display: flex;
+	width : 100%;
+	height : 50px;
+}
+
+.friendtag_button_1 {
+	flex : 1;
+	width : 100%;
+	height : 100%;
+}
+
+.friendtag_button_1:hover {
+	background-color : #cccccc;
+}
+
+.friendtag_h2:hover {
+	color : blue;
+}

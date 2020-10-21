@@ -17,7 +17,6 @@ class App extends Component {
         this.state = {
             logged : false
         }
-        console.log(props);
     }
 
     logout = ()  => {

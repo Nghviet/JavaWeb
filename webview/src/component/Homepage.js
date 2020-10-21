@@ -12,6 +12,9 @@ import '../css/homepage.css';
 
 import Navbar from './Navbar';
 import Newsfeed from './Newsfeed';
+import User from './User';
+import Friend from './Friend';
+
 
 export default function Homepage(props) {
     return(
@@ -19,7 +22,9 @@ export default function Homepage(props) {
             <Navbar logout = {props.logout}/>
             <div className = "homepage_main">
                 <Switch>
-                    <Route exact path = "/"><Newsfeed></Newsfeed></Route>        
+                    <Route exact path = "/"><Newsfeed></Newsfeed></Route>    
+                    <Route path = "/user/:id" component = {User}></Route>    
+                    <Route path = "/friend" component = {Friend}></Route>
                 </Switch>
             </div>
         </Router>

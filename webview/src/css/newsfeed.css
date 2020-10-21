@@ -37,3 +37,43 @@
 .newsfeed_menu_item_des {
 	display : inline;
 }
+
+#post_section {
+	display : flex;
+	width : 100%;
+	height : 100px;
+	background-color : white;
+	margin-top:10px;
+	margin-bottom:10px;
+	border-radius : 5px;
+}
+
+#post_avatar {
+	flex : 1;
+}
+
+#post_button {
+	flex : 8;
+	background-color : #e6e6e6;
+	margin-top : 20px;
+	margin-bottom : 20px;
+	margin-right : 10px;
+	border-radius : 10px;
+
+	text-align : center;
+	font-size : 30px;
+}
+
+#post_button:hover {
+	background-color : #cccccc;
+}
+
+#post_form {
+	margin-left : 10px;
+	margin-right : 10px;
+}
+
+#post_text {
+	width : 100%;
+	height : 100px;
+}

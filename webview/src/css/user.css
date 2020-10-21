@@ -1,0 +1,23 @@
+.user_header {
+	text-align : center;
+}
+.background_img {
+	width : 60%;
+	height : 300px;
+}
+
+.user_container {
+	display:flex;
+}
+
+.user_left {
+	flex : 2
+}
+
+.user_center {
+	flex : 5
+}
+
+.user_right {
+	flex : 2
+}
