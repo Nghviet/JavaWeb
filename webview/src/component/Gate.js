@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState } from 'react';
 
 import '../css/gate.css';
@@ -13,7 +15,6 @@ export default function Gate(props) {
     }
 
     const onSignupClose = (evt) => {
-        evt.preventDefault();
         document.getElementById('signup').style.display = 'none';
     }
 
@@ -23,6 +24,25 @@ export default function Gate(props) {
         axios.get('/api/login')
         .then(result => props.loggedIn())
         .catch(err => localStorage.clear());
+    }
+
+    const onSignup = (evt) => {
+        evt.preventDefault();
+        evt.persist();
+        axios.post("/api/signup",{
+            "name" : evt.target.fullname.value,
+            "email" : evt.target.email.value,
+            "password" : evt.target.password.value
+        })
+        .then(result => {
+            if(result.data == 'OK') {
+                localStorage.Auth = window.btoa(evt.target.email.value +":"+ evt.target.password.value);
+                window.location.pathname = "/";
+            }
+        })  
+        .catch(err => {
+            document.getElementById('signup').style.display = 'none';
+        })
     }
 
     return (
@@ -50,14 +70,14 @@ export default function Gate(props) {
                             <br/>
                             <span onClick={onSignupClose} className="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
                         </div>
-                        <form className="w3-form" id = "signup_form_submit">
+                        <form className="w3-form" id = "signup_form_submit" onSubmit = {onSignup}>
                             <div className="w3-section">
                                 <label><b>Full name</b></label>
                                 <input className="w3-input w3-border w3-margin-bottom signup_input" type="text" placeholder="Enter Full name" name="fullname" required/>
                                 <label><b>Email</b></label>
                                 <input className="w3-input w3-border w3-margin-bottom signup_input" type="email" placeholder="Enter Email" name="email" required/>
                                 <label><b>Password</b></label>
-                                <input className="w3-input w3-border signup_input" type="text" placeholder="Enter Password" name="password" required/>
+                                <input className="w3-input w3-border signup_input" type="password" placeholder="Enter Password" name="password" required/>
                                 
                             </div>
                             <div className = "w3-section">

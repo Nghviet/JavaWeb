@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React ,{Component}from 'react'
 
 import '../css/user.css'
@@ -16,37 +18,27 @@ export default class User extends Component {
 
 		this.state = {
 			"id" : id,
-			"posts" : [
-				{
-					"id" : 1,
-					"owner" : {
-						"email" : "a@a",
-						"name" : "TEN NGUOI DUNG",
-						"id": "-1"
-					},
-					"group" : "Some group",
-					"data" : "1 bai post rat dai ve 1 cai gi do rat thu vi",
-
-				}
-			],
-			"user" : {
-				"id" : id,
-				"email" : "a@a",
-				"name" : "TEN NGUOI DUNG"
-			}
+			"posts" : [],
+			"user" : null
 		}
 
-		axios.get("/API/userposts",{"id" : this.state.id})
+		
+	}
+
+	componentDidMount() {
+		axios.get("/api/userpost/" + this.state.id)
 		.then(result => {
-			this.state.posts = result
+			console.log(result);
+			this.setState({ "posts" : result.data });
 		})
 		.catch(err => {
 
 		})
 
-		axios.get("/API/user",{"id" : this.state.id})
+		axios.get("/api/user/" + this.state.id)
 		.then(result => {
-			this.state.user = result
+			console.log(result);
+			this.setState({ "user" : result.data });
 		})
 		.catch(err => {
 
@@ -54,6 +46,8 @@ export default class User extends Component {
 	}
 
 	render() {
+		if(this.state.user == null) return null;
+		
 		return(
 			<div className = "user">
 				<div className = "user_header">

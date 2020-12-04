@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, {Component} from 'react'
 import {
 	Card,
@@ -13,60 +15,18 @@ export default class PostHandler extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			"posts" : [
-			{
-				"id" : 1,
-				"owner" : {
-					"email" : "a@a",
-					"name" : "TEN NGUOI DUNG",
-					"id": "-1"
-				},
-				"group" : "Some group",
-				"data" : "1 bai post rat dai ve 1 cai gi do rat thu vi",
-
-			},
-			{
-				"id" : 2,
-				"owner" : {
-					"email" : "a@a",
-					"name" : "TEN NGUOI DUNG",
-					"id": "-1"
-				},
-				"group" : "Some group",
-				"data" : "1 bai post rat dai ve 1 cai gi do rat thu vi",
-
-			},
-			{
-				"id" : 3,
-				"owner" : {
-					"email" : "a@a",
-					"name" : "TEN NGUOI DUNG",
-					"id": "-1"
-				},
-				"group" : "Some group",
-				"data" : "1 bai post rat dai ve 1 cai gi do rat thu vi",
-
-			},
-			{
-				"id" : 4,
-				"owner" : {
-					"email" : "a@a",
-					"name" : "123",
-					"id": "-1"
-				},
-				"group" : null,
-				"data" : "1 bai post rat dai ve 1 cai gi do rat thu vi",
-
-			}
-
-
-			],
+			"posts" : [],
 			"newPost" : []
 		}
 
-		axios.get("http://localhost:8080/posts",{"from" : 0,"to": 10})
+		
+	}
+
+	componentDidMount() {
+		axios.get("http://localhost:8080/api/posts",{"from" : 0,"to": 10})
 		.then( result => {
-			this.state.posts = result
+			console.log(result);
+			this.setState({"posts" : result.data});
 		})
 		.catch(err => {
 		}) 
@@ -84,13 +44,16 @@ export default class PostHandler extends Component {
 
 	onPostSubmit = (evt) => {
 		evt.preventDefault();
-		axios.post("http://localhost:8080/API/post",{
+		axios.post("/api/post",{
 			"post" : evt.target.post_text.value
 		})
 		.then(result => {
+			console.log(result);
+			document.getElementById('post_form_div').value = '';
 			document.getElementById('post_form_div').style.display = 'none';
 		})
 		.catch(err => {
+			document.getElementById('post_form_div').value = '';
 			document.getElementById('post_form_div').style.display = 'none';
 		})
 	}
@@ -103,8 +66,9 @@ export default class PostHandler extends Component {
 						
 					</div>
 					<div id = "post_button" onClick = {this.onClickpost}>
-						Ban dang nghi gi, muon chia se ko
+						<span> Ban dang nghi gi, muon chia se khong</span>
 					</div>
+
 				</div>
 				<div id="post_form_div" className="w3-modal">
                     <div className="w3-modal-content w3-card-4 w3-animate-zoom" id = "signup_display">

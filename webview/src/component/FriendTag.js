@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, {useState} from 'react'
 
 import axios from '../axios'
@@ -14,7 +16,7 @@ export default function FriendTag(props) {
 
 	const onClickAcpt = (evt) => {
 		evt.preventDefault();
-		axios.post('/API/acceptFriendReq',{"from" : user.id})
+		axios.post('/api/acceptFriendReq',{"from" : user.id})
 		.then(result => {
 			document.getElementById(id).style.display = 'none';
 		})
@@ -25,7 +27,7 @@ export default function FriendTag(props) {
 
 	const onClickRemv = (evt) => {
 		evt.preventDefault();
-		axios.post('/API/removeFriendReq',{"from" : user.id})
+		axios.post('/api/removeFriendReq',{"from" : user.id})
 		.then(result => {
 			document.getElementById(id).style.display = 'none';
 		})
@@ -38,16 +40,21 @@ export default function FriendTag(props) {
 		props.setDisplay(user.id);
 	}
 
+	var Actbutton = null;
+	if(type == '1') 
+		Actbutton = (
+			<><div className = "friendtag_button_1" onClick = {onClickAcpt} >
+				<span> { button }</span>
+			</div>
+			<div className = "friendtag_button_1" onClick = {onClickRemv} >
+				<span> Remove </span>
+			</div></>)
+
 	return (
 		<div className = "friendtag_container" id = {id}>
 			<h2 onClick = {onClickh2} ><span className = "friendtag_h2">{user.name}</span></h2>
 			<div className = "friendtag_button">
-				<div className = "friendtag_button_1" onClick = {onClickAcpt} >
-					<span> { button }</span>
-				</div>
-				<div className = "friendtag_button_1" onClick = {onClickRemv} >
-					<span> Remove </span>
-				</div>
+				{Actbutton}
 			</div>
 		</div>
 	)

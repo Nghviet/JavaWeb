@@ -4,21 +4,28 @@ public class User implements Schema {
 		
 	public int id;
 	public String email;
-	public String password;
-	public boolean verified;
+	public String name;
+	public boolean requested = false;
+	public boolean received = false;
 
 	public User() {
 		id = -1;
 		email = null;
-		password = null;
-		verified = false;
+		name = null;
 	}
 
-	public User(int _id, String _email, String _password, boolean _verified) {
+	public User(int _id, String _email, String _name) {
 		id = _id;
 		email = _email;
-		password = _password;
-		verified = _verified;
+		name = _name;
+	}
+
+	public User(int _id, String _email, String _name, boolean _requested, boolean _received) {
+		id = _id;
+		email = _email;
+		name = _name;
+		requested = _requested;
+		received = _received;
 	}
 
 	@Override
@@ -26,8 +33,6 @@ public class User implements Schema {
 		return "User [" +
 			"id: " + id + ", " +
 			"email: " + email + ", " +
-			"password: " + password + ", " +
-			"verified: " + verified + ", " +
 			"]";
 	}
 }

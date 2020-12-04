@@ -1,0 +1,31 @@
+.search_display {
+	display : flex;
+}
+
+.search_left {
+	flex : 1;
+}
+
+.search_main {
+	flex : 5;
+}
+
+.searchtab {
+	display : flex;
+}
+
+.searchtab_avatar {
+	flex : 1;
+}
+
+.searchtab_display {
+	flex : 5;
+}
+
+.searchtab_action {
+	flex : 1;
+}
+
+.searchtab button {
+	margin-top:10px
+}

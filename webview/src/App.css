@@ -1,5 +1,13 @@
 .App {
   text-align: center;
+
+}
+
+@media screen (max-width: 500px) {
+  .App {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .App-logo {
@@ -22,6 +30,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+
 }
 
 .App-link {

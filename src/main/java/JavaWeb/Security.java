@@ -63,7 +63,10 @@ public class Security extends WebSecurityConfigurerAdapter {
           throws AuthenticationException {
             String name = authentication.getName();
             String password = authentication.getCredentials().toString();
-            if(Database.INSTANCE.login(name,password) == Database.COMPLETE) return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
+            int value = Database.INSTANCE.login(name,password);
+            if(value > 0) {
+                return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
+            }
             else throw new BadCredentialsException("CANT LOGIN");
         }
      

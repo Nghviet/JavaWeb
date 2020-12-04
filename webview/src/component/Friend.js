@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React,{ useState, useEffect } from 'react'
 
 import axios from '../axios'
@@ -8,42 +10,54 @@ import FriendTag from './FriendTag'
 import User from './User'
 export default function Friend(props) {
 	
-	var [friends, setFriends] = React.useState([]);
+	var [friendReqs, setFriendReqs] = React.useState(null);
 	var [display, setDisplay] = React.useState(null);
-	var [loading1, setLoading1] = React.useState(false);
-	var [loading2, setLoading2] = React.useState(false);
+	var [friend, setFriend] = React.useState(null);
 	var temp = null;
 	
 	useEffect(() => {
-		axios.get("/API/getFriendReqs")
+		axios.get("/api/getFriendReqs")
 		.then(result => {
-			setFriends(result);
-			setLoading1(true);
+			if(result.data == "") {
+				setFriendReqs([]);
+			}
+			else setFriendReqs(result.data);
 		})
 		.catch(err => {
-			setFriends([
-				{
-					"type" : 1,
-					"user" : {
-						"email" : "a@a",
-						"name" : "TEN NGUOI DUNG",
-						"id": "-1"
-					}
-				}
-			]);
-			setLoading1(true);
+			setFriendReqs([]);
 		})
+
+		axios.get("/api/getFriends")
+		.then(result => {
+			console.log(result);
+			if(result.data == "") {
+				setFriend([]);
+			}
+			else setFriend(result.data);
+		})
+		.catch(err => {
+			setFriend([]);
+		})
+
 	},[])
 
-	if(loading1 == false ) return null;
-
-	var user = (display == null)? null:(<User id = {display}></User>)
+	if(friendReqs == null || friend == null) return null;
+	var userKey = "user_id_" + display;
+	var user = (display == null)? null:(<User key = {userKey} id = {display}></User>)
 
 	return (
 		<div className = "friend_container">
 			<div className = "friend_left">
-				{friends.map(friend => 
-					<FriendTag type = '1' user = {friend.user} setDisplay = {setDisplay} ></FriendTag>
+				<h3> Friend list</h3>
+				{friend.map(friend => 
+					<FriendTag key = {friend.id} type = '2' user = {friend} setDisplay = {setDisplay}></FriendTag>
+				)
+
+				}
+
+				<h3> Friend request </h3>
+				{friendReqs.map(friend => 
+					<FriendTag key = {friend.id}  type = '1' user = {friend} setDisplay = {setDisplay} ></FriendTag>
 				)}
 			</div>
 			<div className = "friend_main">

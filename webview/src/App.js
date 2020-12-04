@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, {Component} from 'react';
 import {
   BrowserRouter as Router,
@@ -29,7 +31,7 @@ class App extends Component {
     }
 
     render() {
-        if(localStorage.getItem('Auth') == null) {
+        if(localStorage.Auth == null) {
             return(
                 <Router>
                     <Redirect to="/"></Redirect>

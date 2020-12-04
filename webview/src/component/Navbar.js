@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState } from 'react';
 
 import {
@@ -45,7 +47,7 @@ export default function Navbar(props) {
 	const onNavbarSearch = (evt) => {
 		evt.preventDefault();
 		console.log(evt.target.query.value)
-		window.location.pathname = "/search";
+		window.location.pathname = "/search/q=" + evt.target.query.value.replace(" ","+");
 	}
 
 

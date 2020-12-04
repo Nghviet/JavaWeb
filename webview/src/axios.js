@@ -10,7 +10,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('Auth');
+    const token = localStorage.Auth;
     config.headers.Authorization =  token ? `Basic ${token}` : '';
     return config;
   });

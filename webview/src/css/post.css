@@ -36,6 +36,11 @@
 	border-bottom:1px solid #e6e6e6;
 }
 
+.post_like_true {
+	color : blue;
+	font-weight: bold;
+}
+
 .post_like:hover,.post_comment:hover {
 	background-color : #e6e6e6;
 }
