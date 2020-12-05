@@ -14,6 +14,8 @@ plugins {
     id 'application'
 }
 
+
+
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
@@ -23,12 +25,14 @@ repositories {
 version = '0.0.1'
 sourceCompatibility = '1.8'
 
-jar {
+bootJar {
     enabled = true
-    manifest {
-        attributes 'Main-Class': 'javaweb.App'
+    from('webview/build') {
+        into 'static'
     }
 }
+
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

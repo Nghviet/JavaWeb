@@ -16,8 +16,7 @@ import java.security.Principal;
 
 @RestController
 @Import(Database.class)
-public class Controller {
-
+public class RESTController {
 	@GetMapping("/api/login")
 	public String login(HttpServletRequest req) {
 		Principal userPrincipal = req.getUserPrincipal();
