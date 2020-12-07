@@ -42,6 +42,7 @@ dependencies {
 
     compile group: 'org.springframework', name: 'spring-websocket', version: '5.2.11.RELEASE'
     compile group: 'org.springframework', name: 'spring-jms', version: '5.2.11.RELEASE'
+
     compile "org.eclipse.jetty:jetty-servlets:9.3.20.v20170531"
     compile 'mysql:mysql-connector-java:8.0.21'
 
