@@ -17,6 +17,7 @@ import Newsfeed from './Newsfeed';
 import User from './User';
 import Friend from './Friend';
 import Search from './Search';
+import Group from './Group';
 
 export default function Homepage(props) {
     return(
@@ -28,6 +29,7 @@ export default function Homepage(props) {
                     <Route path = "/user/:id" component = {User}></Route>    
                     <Route path = "/friend" component = {Friend}></Route>
                     <Route path = "/search/q=:querry" component = {Search}></Route>
+                    <Route path = "/group/" component = {Group}></Route>
                 </Switch>
             </div>
         </Router>

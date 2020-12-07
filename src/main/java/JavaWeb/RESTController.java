@@ -116,4 +116,11 @@ public class RESTController {
 		return Database.INSTANCE.getComment(postID);
 	}
 
+	@GetMapping("/api/user")
+	public List<User> getUserData(HttpServletRequest req) {
+		List<User> user = new ArrayList<>();
+		user.add(Database.INSTANCE.getUser(req.getUserPrincipal().getName()));
+		return user;
+	}
+
 }

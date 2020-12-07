@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
 	Redirect
@@ -21,6 +21,9 @@ export default function Navbar(props) {
 	var navbar_home_css = {};
 	var navbar_friend_css = {};
 	var navbar_group_css = {};
+	var navbar_messenger_css
+
+	var [userPath, setUserPath] = React.useState(null);
 
 	if(path== "/") {
 		navbar_home_css = {
@@ -50,6 +53,20 @@ export default function Navbar(props) {
 		window.location.pathname = "/search/q=" + evt.target.query.value.replace(" ","+");
 	}
 
+	const redirect = (evt) => {
+		evt.preventDefault();
+		window.location.pathname = "/user/" + userPath.id;
+	}
+	var userProfile = (userPath == null)? null:<button className = "w3-button logout_button" onClick = {redirect}>{userPath.name}</button> ;
+	useEffect(() => {
+		axios.get('/api/user')
+		.then(result => {
+			console.log(result);
+			setUserPath(result.data[0]);
+		})
+		.catch(err => console.log(err));
+	},[])
+
 
     return(
         <div className = "w3-top navbar">
@@ -77,7 +94,9 @@ export default function Navbar(props) {
 					
 				</div>
 				<div className = "right_flex">
-					<button className = "w3-button logout_button" onClick = {logout}> Log out</button>
+					<div className = "navbar_profile">{userProfile}</div>
+					<div className = "navbar_logout"><button className = "w3-button logout_button" onClick = {logout}> Log out</button></div>
+					
 				</div>
 			</div>
 		</div>

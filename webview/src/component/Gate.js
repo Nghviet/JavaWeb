@@ -8,6 +8,7 @@ import axios from '../axios';
 export default function Gate(props) {
 
     const [processing,setProcessing] = useState(0);
+    const [alert,setAlert] = useState(null);
 
     const onSignupClicked = (evt) => {
         evt.preventDefault();
@@ -22,8 +23,13 @@ export default function Gate(props) {
         evt.preventDefault();
         localStorage.setItem('Auth',window.btoa(evt.target.email.value +":"+ evt.target.password.value));
         axios.get('/api/login')
-        .then(result => props.loggedIn())
-        .catch(err => localStorage.clear());
+        .then(result => {
+                props.loggedIn()
+        })
+        .catch(err => {
+            localStorage.clear()
+            setAlert(<div className = "alert alert-danger" role="alert"> Wrong email or password</div>);
+        });
     }
 
     const onSignup = (evt) => {
@@ -39,6 +45,11 @@ export default function Gate(props) {
                 localStorage.Auth = window.btoa(evt.target.email.value +":"+ evt.target.password.value);
                 window.location.pathname = "/";
             }
+            else {
+                document.getElementById('signup').style.display = 'none';
+                setAlert(<div className = "alert alert-danger" role="alert"> User already exists</div>);
+            }
+            
         })  
         .catch(err => {
             document.getElementById('signup').style.display = 'none';
@@ -46,6 +57,8 @@ export default function Gate(props) {
     }
 
     return (
+        <>
+        {alert}
         <div className="w3-container container">
             <div className = "intro"> 
                 <h2> Nhóm 12 - Mạng xã hội </h2>
@@ -89,5 +102,6 @@ export default function Gate(props) {
             </div>
             
         </div>
+        </>
     )
 }

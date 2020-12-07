@@ -38,6 +38,7 @@
 
 .right_flex {
 	flex : 1;
+	display : flex;
 }
 
 .logout_button {
@@ -49,4 +50,11 @@
 
 .navbar_item:hover {
 	background-color: #f2f2f2;
+}
+
+.navbar_profile {
+	flex: 1;
+}
+.navbar_logout {
+	flex:1;
 }

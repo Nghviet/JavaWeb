@@ -43,12 +43,14 @@ export default function FriendTag(props) {
 	var Actbutton = null;
 	if(type == '1') 
 		Actbutton = (
-			<><div className = "friendtag_button_1" onClick = {onClickAcpt} >
-				<span> { button }</span>
-			</div>
-			<div className = "friendtag_button_1" onClick = {onClickRemv} >
-				<span> Remove </span>
-			</div></>)
+			<>
+				<div className = "friendtag_button_1" onClick = {onClickAcpt} >
+					<span> { button }</span>
+				</div>
+				<div className = "friendtag_button_1" onClick = {onClickRemv} >
+					<span> Remove </span>
+				</div>
+			</>)
 
 	return (
 		<div className = "friendtag_container" id = {id}>

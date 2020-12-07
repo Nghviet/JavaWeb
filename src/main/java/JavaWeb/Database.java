@@ -6,6 +6,14 @@ import java.util.ArrayList;
 
 import javaweb.dbschema.*;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.Base64;
+
 public class Database {
 
 	private Connection conn = null;
@@ -13,13 +21,58 @@ public class Database {
 	private Database() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/INT3139", "root", "1111");
+            conn = DriverManager.getConnection("jdbc:mysql://pekq8n50z7dr91mc:va03libed2naxc3j@ixnzh1cxch6rtdrx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/f6p5q26rq25b3qiw", 
+            	"pekq8n50z7dr91mc", "va03libed2naxc3j");
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
+	private class AES {
+		private byte[] key;
+		private  SecretKeySpec secretKey;
+ 		private AES() {
+			MessageDigest sha = null;
+			try {
+				key = "int3139-12".getBytes("UTF-8");
+				sha = MessageDigest.getInstance("SHA-1");
+				key = sha.digest(key);
+				key = Arrays.copyOf(key,16);
+				secretKey = new SecretKeySpec(key,"AES");
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		public String encrypt(String input) {
+			try {
+				Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            	cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            	return Base64.getEncoder().encodeToString(cipher.doFinal(input.getBytes("UTF-8"))).replace("/","-");
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
+			return null;
+		}
+
+		public String decrypt(String input) {
+			try {
+	            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+	            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+	            return new String(cipher.doFinal(Base64.getDecoder().decode(input.replace("-","/"))));
+	        } 
+	        catch (Exception ex) 
+	        {
+	            ex.printStackTrace();
+	        }
+	        return null;
+		}
+	}
+
+	private AES aes = new AES();
 
 	protected static final int COMPLETE = 0;
 	protected static final int USER_NOT_FOUND = -1;
@@ -29,7 +82,7 @@ public class Database {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from user where user_email = '" + email + "';");
 			while(rs.next()) {
-				if (password.equals(rs.getString("user_password")) ) return rs.getInt("user_id");
+				if (aes.encrypt(password).equals(rs.getString("user_password"))) return rs.getInt("user_id");
 				else return WRONG_PASSWORD;
 			}
 			stmt.close();
@@ -147,7 +200,7 @@ public class Database {
 			Statement stmt = conn.createStatement();
 			int user_id = getID(email);
 			ResultSet rs = 
-				stmt.executeQuery("select user_id,user_email,user_name, if(exists(select request_to from request where request_from = " + user_id + " and request_to = user_id),1,0) as requested, if(exists(select request_to from request where request_to = " + user_id + " and request_from = user_id),1,0) as received from user where user_name like '" + querry +"%' and user_id not in (select friend_to from friend where friend.friend_from = '" + user_id + "' )");
+				stmt.executeQuery("select user_id,user_email,user_name, if(exists(select request_to from request where request_from = " + user_id + " and request_to = user_id),1,0) as requested, if(exists(select request_to from request where request_to = " + user_id + " and request_from = user_id),1,0) as received from user where user_name like '%" + querry +"%' and user_id not in (select friend_to from friend where friend.friend_from = '" + user_id + "' )");
 			List<User> result = new ArrayList<User>();
 			while(rs.next()) {
 				User user = new User(rs.getInt("user_id"),
@@ -297,7 +350,7 @@ public class Database {
 			PreparedStatement stmt = conn.prepareStatement("insert into user(user_name,user_email,user_password) values(?,?,?)");
 			stmt.setString(1,name);
 			stmt.setString(2,email);
-			stmt.setString(3,password);
+			stmt.setString(3,aes.encrypt(password));
 			stmt.execute();
 			stmt.close();
 			return "OK";

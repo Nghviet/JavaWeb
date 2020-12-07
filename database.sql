@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: INT3139
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version 8.0.19
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -41,7 +41,6 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-INSERT INTO `comment` VALUES (23,1,4,'a'),(24,1,4,'a'),(25,1,4,'a'),(26,1,4,'a'),(27,1,4,'as'),(28,1,4,'asd'),(29,1,4,'f'),(30,1,4,'fd'),(31,1,5,'f');
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +67,6 @@ CREATE TABLE `friend` (
 
 LOCK TABLES `friend` WRITE;
 /*!40000 ALTER TABLE `friend` DISABLE KEYS */;
-INSERT INTO `friend` VALUES (1,1),(2,2),(10,10),(12,12),(14,14),(1,2),(2,1),(15,15),(16,16),(17,17),(18,18),(19,19),(20,20),(21,21),(22,22);
 /*!40000 ALTER TABLE `friend` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +94,6 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (1,1,'A example post ','2020-10-23 21:45:22'),(2,1,'A Second example post ','2020-10-23 21:45:32'),(3,1,'12341234','2020-10-26 21:31:20'),(4,1,'Tuan nhu cac','2020-11-26 13:14:31'),(5,1,'f','2020-12-03 11:30:32'),(6,1,'f','2020-12-03 11:31:52'),(7,1,'fd','2020-12-03 11:31:55'),(8,1,'f','2020-12-03 11:32:07');
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +120,6 @@ CREATE TABLE `reactions` (
 
 LOCK TABLES `reactions` WRITE;
 /*!40000 ALTER TABLE `reactions` DISABLE KEYS */;
-INSERT INTO `reactions` VALUES (1,3),(1,2),(2,2),(1,4);
 /*!40000 ALTER TABLE `reactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +146,6 @@ CREATE TABLE `request` (
 
 LOCK TABLES `request` WRITE;
 /*!40000 ALTER TABLE `request` DISABLE KEYS */;
-INSERT INTO `request` VALUES (1,10),(1,12),(1,16);
 /*!40000 ALTER TABLE `request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +173,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'a@a','a','TESTER',NULL),(2,'b@b','bbb','TESTER BETA',NULL),(10,'a@bcde','abcde','SUPER ADMIN',NULL),(12,'a@aaa','abcde','SUPER ADMIN',NULL),(14,'a@123','abcde','SUPER ADMIN',NULL),(15,'abcd@a','a','SUPER OMEGA TESTER',NULL),(16,'123@123','123','SUPER OMEGA TESTER 2',NULL),(17,'123123@123','123','SUPER OMEGA TESTER 3',NULL),(18,'142@123','123','SUPER OMEGA TESTER 4',NULL),(19,'123123123@123','123','SUPER OMEGA TESTER 5',NULL),(20,'12@1','123','SUPER OMEGA TESTER 6',NULL),(21,'1@1','1','1',NULL),(22,'ab@a','a','a',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -191,4 +185,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-04 17:16:16
+-- Dump completed on 2020-12-05 19:57:05
+
+CREATE DEFINER=`root`@`localhost` TRIGGER `user_AFTER_INSERT` AFTER INSERT ON `user` FOR EACH ROW BEGIN
+  insert into friend(friend_from, friend_to) value (new.user_id,new.user_id);
+END
