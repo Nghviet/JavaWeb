@@ -27,9 +27,6 @@ sourceCompatibility = '1.8'
 
 bootJar {
     enabled = true
-    from('webview/build') {
-        into 'static'
-    }
 }
 
 
