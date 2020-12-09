@@ -18,6 +18,7 @@ import User from './User';
 import Friend from './Friend';
 import Search from './Search';
 import Group from './Group';
+import Messenger from './Messenger';
 
 export default function Homepage(props) {
     return(
@@ -30,6 +31,7 @@ export default function Homepage(props) {
                     <Route path = "/friend" component = {Friend}></Route>
                     <Route path = "/search/q=:querry" component = {Search}></Route>
                     <Route path = "/group/" component = {Group}></Route>
+                    <Route path = "/messenger" component = {Messenger}></Route>
                 </Switch>
             </div>
         </Router>

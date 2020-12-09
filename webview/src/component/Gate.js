@@ -21,10 +21,13 @@ export default function Gate(props) {
 
     const loginSubmit = (evt) => {
         evt.preventDefault();
+        evt.persist();
         localStorage.setItem('Auth',window.btoa(evt.target.email.value +":"+ evt.target.password.value));
         axios.get('/api/login')
         .then(result => {
-                props.loggedIn()
+            console.log(result);
+            localStorage.setItem('Username',result.data);
+            props.loggedIn()
         })
         .catch(err => {
             localStorage.clear()

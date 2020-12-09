@@ -23,6 +23,7 @@ public class Database {
 			Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://pekq8n50z7dr91mc:va03libed2naxc3j@ixnzh1cxch6rtdrx.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/f6p5q26rq25b3qiw", 
             	"pekq8n50z7dr91mc", "va03libed2naxc3j");
+            System.out.println("DB INIT");
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
@@ -93,7 +94,7 @@ public class Database {
 		}
 	}
 
-	private int getID(String email) {
+	public int getID(String email) {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select user_id from user where user_email = '" + email +"'");
@@ -110,6 +111,7 @@ public class Database {
 	public List<Post> getPost(String email) {
 		try {
 			int userID = getID(email);
+			System.out.println("Called with " + email);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select user_id,user_email,user_name,post_data,post_id,if(exists(select * from reactions where post.post_id = reactions.reactions_postID and reactions.reactions_userID = '" + userID + "'),1,0) as reacted from post inner join user on post.post_userID = user.user_id where user_id in (select friend_to from friend where friend_from = " + userID + ")order by post_date desc");
 			List<Post> result = new ArrayList<Post>();
@@ -118,6 +120,7 @@ public class Database {
 									 rs.getString("user_email"),
 									 rs.getString("user_name"));
 				Post post = new Post(rs.getInt("post_id"),user,rs.getString("post_data"),rs.getBoolean("reacted"));
+				System.out.println(post);
 				result.add(post);
 			}
 			stmt.close();
@@ -139,6 +142,7 @@ public class Database {
 									 rs.getString("user_email"),
 									 rs.getString("user_name"));
 				stmt.close();
+				System.out.println(user);
 				return user;
 			}
 			stmt.close();
@@ -160,6 +164,8 @@ public class Database {
 			while(rs.next()) {
 				userID = rs.getInt("user_id");
 			}
+
+			System.out.println("Called with " + email + " " + post);
 			stmt.setInt(1,userID);
 			stmt.setString(2,post);
 			stmt.execute();
@@ -184,6 +190,7 @@ public class Database {
 				User user = new User(rs.getInt("user_id"),
 									 rs.getString("user_email"),
 									 rs.getString("user_name"));
+				System.out.println(user);
 				result.add(user);
 			}
 			stmt.close();
@@ -208,6 +215,7 @@ public class Database {
 									 rs.getString("user_name"),
 									 rs.getBoolean("requested"),
 									 rs.getBoolean("received"));
+				System.out.println(user);
 				result.add(user);
 			}
 			stmt.close();
@@ -453,5 +461,53 @@ public class Database {
 		}
 	}
 
+
+	public List<Object> getMessage(String email, int recvID) {
+		try{ 
+			List<Object> result = new ArrayList<>();
+			int userID = getID(email);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from message where (message_sender = '" + userID + "' and message_recver = '" + recvID + "') or  (message_recver = '" + userID + "' and  message_sender = '" + recvID + "') order by message_time desc");
+			while(rs.next()) {
+				result.add(new Message(rs.getInt("message_id"),
+									   rs.getInt("message_sender"),
+									   rs.getInt("message_recver"),
+									   rs.getString("message_data")));
+			}
+
+			stmt.close();
+			return result;
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Object> getFriendMessage(String email) {
+		try {
+			List<Object> result = new ArrayList<>();
+
+			int userID = getID(email);
+			List<User> users = new ArrayList<>();
+			List<Message> messages = new ArrayList<>();
+			result.add(getFriends(email));
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from user inner join friend on user.user_id = friend.friend_to where friend.friend_from ='"
+											+ userID + "' order by (select MAX(message_time) from message where (message.message_sender = friend_to and message.message_recver = friend_from) or (message.message_recver = friend_to and message.message_sender = friend_from))");
+			while(rs.next()) {
+				users.add(new User(rs.getInt("user_id"), null, rs.getString("user_name")));
+			}
+
+			result.add(getMessage(email,getFriends(email).get(0).id));
+
+
+			return result;
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
 	public static Database INSTANCE = new Database();
 }

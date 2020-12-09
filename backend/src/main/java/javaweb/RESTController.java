@@ -14,14 +14,18 @@ import java.util.ArrayList;
 
 import java.security.Principal;
 
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+
 @RestController
 @Import(Database.class)
 public class RESTController {
 	@GetMapping("/api/login")
-	public String login(HttpServletRequest req) {
+	public int login(HttpServletRequest req) {
 		Principal userPrincipal = req.getUserPrincipal();
-		System.out.println("Got one");
-		return "Login";
+		return Database.INSTANCE.getID(userPrincipal.getName());
 	}
 
 	@GetMapping("/api/posts")
@@ -47,6 +51,7 @@ public class RESTController {
 	public List<User> searchNonfriend(HttpServletRequest req,@PathVariable("querry") String querry) {
 		querry = querry.replace("+"," ");
 		List<User> friend = Database.INSTANCE.searchNonfriend(req.getUserPrincipal().getName(),querry);
+		for(User user:friend)System.out.println(user);
 		return friend;
 	}
 
@@ -123,4 +128,19 @@ public class RESTController {
 		return user;
 	}
 
+	@GetMapping("/api/messageFriend")
+	public List<Object> getFriendMessage(HttpServletRequest req) {
+		return Database.INSTANCE.getFriendMessage(req.getUserPrincipal().getName());
+	}
+
+	@GetMapping("/message/{username}")
+	@SendTo("/user/{username}")
+	public Message sendMessage(@Payload Message chatMessage) {
+		return chatMessage;
+	}
+
+	@GetMapping("/api/message/{recverid}")
+	public List<Object> getMessageHist(HttpServletRequest req, @PathVariable int recverid) {
+		return Database.INSTANCE.getMessage(req.getUserPrincipal().getName(), recverid);
+	}
 }

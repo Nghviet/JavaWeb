@@ -1,0 +1,47 @@
+#messenger{
+	display:flex;
+}
+
+#messenger_friend{ 
+	flex : 2;
+	background: #f8f8f8 none repeat scroll 0 0;
+  	float: left;
+	overflow: hidden;
+}
+
+#messenger_main {
+	flex : 5;
+	height: 516px;
+  	overflow-y: auto;
+}
+
+.messengertab {
+	width : 40px;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.messengertab :hover {
+	background-color:#808080;
+}
+
+.input{
+	position: relative;
+	font-size: 15px;
+  	min-height: 48px;
+  	width: 100%;
+}
+
+.input input {
+	width : 90%
+}
+
+.outgoing {
+	float: right;
+  	width: 46%;
+}
+
+.incomming {
+	float: left;
+	width : 46%;
+}

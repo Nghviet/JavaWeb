@@ -13,6 +13,7 @@ import '../css/navbar.css'
 import Home from '../img/navbar_home.png'
 import Friend from '../img/navbar_friend.png'
 import Group from '../img/navbar_group.svg'
+import Message from '../img/navbar_messenger.jpg'
 
 export default function Navbar(props) {
 
@@ -21,7 +22,7 @@ export default function Navbar(props) {
 	var navbar_home_css = {};
 	var navbar_friend_css = {};
 	var navbar_group_css = {};
-	var navbar_messenger_css
+	var navbar_messenger_css = {};
 
 	var [userPath, setUserPath] = React.useState(null);
 
@@ -39,6 +40,12 @@ export default function Navbar(props) {
 
 	if(path.startsWith("/group")) {
 		navbar_group_css = {
+			"borderBottom" : "5px solid red"
+		}
+	}
+
+	if(path.startsWith("/message")) {
+		navbar_messenger_css = {
 			"borderBottom" : "5px solid red"
 		}
 	}
@@ -61,10 +68,10 @@ export default function Navbar(props) {
 	useEffect(() => {
 		axios.get('/api/user')
 		.then(result => {
-			console.log(result);
 			setUserPath(result.data[0]);
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+		});
 	},[])
 
 
@@ -87,6 +94,9 @@ export default function Navbar(props) {
 				</div>
 				<div className = "middle_button" id="navbar_group" style = {navbar_group_css}>
 					<a className = "navbar_item" href = "/group"><img src = {Group} className = "navbar_img"></img></a>
+				</div>
+				<div className = "middle_button" id="navbar_message" style = {navbar_messenger_css}>
+					<a className = "navbar_item" href = "/messenger"><img src = {Message} className = "navbar_img"></img></a>
 				</div>
 			</div>
 			<div className = "right">

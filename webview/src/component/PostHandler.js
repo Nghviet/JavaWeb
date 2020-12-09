@@ -23,7 +23,8 @@ export default class PostHandler extends Component {
 	}
 
 	componentDidMount() {
-		axios.get("http://localhost:8080/api/posts",{"from" : 0,"to": 10})
+		console.log("Called");
+		axios.get("/api/posts",{"from" : 0,"to": 10})
 		.then( result => {
 			console.log(result);
 			this.setState({"posts" : result.data});
