@@ -1,2 +1,2 @@
-task stage(dependsOn: 'bootJar') {
+task stage(dependsOn: 'build') {
 }
