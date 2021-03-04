@@ -1,2 +1,2 @@
-task stage() {
+task stage(dependsOn: 'backend') {
 }
